@@ -20,6 +20,8 @@ Route::get('/', function () {
 Route::get('/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('auth.login');
 Route::delete('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('auth.logout');
 Route::post('/login', [\App\Http\Controllers\AuthController::class, 'doLogin']);
+Route::get('/register', [\App\Http\Controllers\AuthController::class, 'create'])->name('register');
+Route::post('/register', [\App\Http\Controllers\AuthController::class, 'store']);
 
 route::prefix('/blog')->name('blog.')->group(function(){
     Route::get('/', [\App\Http\Controllers\BlogController::class, 'index'])->name('index');

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,6 +32,21 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
+        return to_route('auth.login');
+    }
+
+    public function create()
+    {
+        return view('auth.register');
+    }
+
+    public function store(RegisterRequest $request)
+    {
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
         return to_route('auth.login');
     }
 }
