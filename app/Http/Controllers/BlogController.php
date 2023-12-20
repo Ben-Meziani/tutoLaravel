@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BlogFilterRequest;
 use App\Http\Requests\CreatePostRequest;
+use App\Models\Category;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -26,7 +28,7 @@ class BlogController extends Controller
         return redirect()->route('blog.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'Post created');
     }
     public function index(): View {
-       return view('blog.index', ['posts' => Post::paginate(1)]);
+       return view('blog.index', ['posts' => Post::with('tags', 'category')->paginate(10)]);
     }
 
     public function update(Post $post, CreatePostRequest $request)
@@ -37,7 +39,8 @@ class BlogController extends Controller
 
     public function edit(Post $post)
     {
-        return view('blog.edit', ['post' => $post]);
+
+        return view('blog.edit', ['post' => $post, 'categories' => Category::select('id', 'name')->get(), 'tags' => Tag::select('id', 'name')->get()]);
     }
     public function show(string $slug, Post $post) : RedirectResponse | view {
         if($post->slug != $slug){

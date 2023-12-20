@@ -24,9 +24,11 @@ class CreatePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' =>[ 'required', 'min:8'],
-            'slug' =>[ 'required', 'min:8', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',Rule::unique('posts')->ignore($this->route()->parameter('post'))],
+            'title' =>['min:8'],
+            'slug' =>['min:8', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',Rule::unique('posts')->ignore($this->route()->parameter('post'))],
             'content' =>[ 'required'],
+            'category_id' =>[ 'required', Rule::exists('categories', 'id')],
+            'tags' => ['array', Rule::exists('tags', 'id'), 'required'],
         ];
     }
 
