@@ -17,11 +17,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('auth.login');
+Route::delete('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('auth.logout');
+Route::post('/login', [\App\Http\Controllers\AuthController::class, 'doLogin']);
+
 route::prefix('/blog')->name('blog.')->group(function(){
     Route::get('/', [\App\Http\Controllers\BlogController::class, 'index'])->name('index');
-    Route::get('/new', [\App\Http\Controllers\BlogController::class, 'create'])->name('create');
+    Route::get('/new', [\App\Http\Controllers\BlogController::class, 'create'])->name('create')->middleware('auth');
     Route::post('/new', [\App\Http\Controllers\BlogController::class, 'store'])->name('store');
-    Route::get('/{post}/edit', [\App\Http\Controllers\BlogController::class, 'edit'])->name('edit');
+    Route::get('/{post}/edit', [\App\Http\Controllers\BlogController::class, 'edit'])->name('edit')->middleware('auth');
     Route::post('/{post}/edit', [\App\Http\Controllers\BlogController::class, 'update'])->name('update');
     Route::get('/{slug}-{post}', [\App\Http\Controllers\BlogController::class, 'show'])->where([
         'id' => '[0-9]',

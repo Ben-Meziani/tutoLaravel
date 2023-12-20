@@ -40,6 +40,19 @@
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
+      <div class="navbar-nav ms-auto mb-2 mb-lg-0">
+        @auth
+           {{ Auth::user()->name }}       
+           <form class="nav-item" action="{{ route('auth.logout') }}" method="POST">
+              @method("delete")
+              @csrf
+
+              <button  class="btn btn-link nav-link">Se déconnecter</button"></form>
+        @endauth
+        @guest
+          <a class="nav-link" href="{{ route('auth.login') }}">Login</a> 
+        @endguest
+      </div>
     </div>
   </div>
 </nav>
