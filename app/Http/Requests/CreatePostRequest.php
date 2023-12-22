@@ -29,6 +29,7 @@ class CreatePostRequest extends FormRequest
             'content' =>[ 'required'],
             'category_id' =>[ 'required', Rule::exists('categories', 'id')],
             'tags' => ['array', Rule::exists('tags', 'id'), 'required'],
+            'image' => ['image', 'max:2048'],
         ];
     }
 

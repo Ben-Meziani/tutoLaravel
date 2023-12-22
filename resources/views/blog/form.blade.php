@@ -1,6 +1,13 @@
 
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
     @csrf
+    <div class="form-group">
+        <label for="image">Image</label>
+        <input type="file" class="form-control" name="image" id="image" >
+        @error('image')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+    </div>
     <div class="form-group">
         <label for="title">Titre</label>
         <input type="text" class="form-control" name="title" id="title" value="Article de démonstration">
